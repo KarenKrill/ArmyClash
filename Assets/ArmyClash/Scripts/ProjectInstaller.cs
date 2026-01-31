@@ -2,11 +2,16 @@ using Cysharp.Threading.Tasks;
 using KarenKrill.UniCore.Logging;
 using KarenKrill.UniCore.StateSystem;
 using KarenKrill.UniCore.StateSystem.Abstractions;
+using KarenKrill.UniCore.UI.Presenters;
+using KarenKrill.UniCore.UI.Presenters.Abstractions;
+using KarenKrill.UniCore.UI.Views;
 using KarenKrill.UniCore.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
-using ArmyClash.GameFlow.Abstractions;
 using ArmyClash.GameFlow;
+using ArmyClash.GameFlow.Abstractions;
 
 namespace ArmyClash
 {
@@ -16,7 +21,14 @@ namespace ArmyClash
         {
             InstallLogging();
             InstallGameFlow();
+            InstallViewFactory();
+            InstallPresenters();
         }
+
+        [SerializeField]
+        private Transform _uiRootTransform;
+        [SerializeField]
+        private List<GameObject> _uiPrefabs;
         private ILogger _logger;
         
         private void InstallLogging()
@@ -60,7 +72,35 @@ namespace ArmyClash
 
             Container.BindInterfacesAndSelfTo<GameStateNavigator>().AsSingle();
         }
-        
+
+        private void InstallViewFactory()
+        {
+            if (_uiRootTransform == null)
+            {
+                _uiRootTransform = FindFirstObjectByType<Canvas>(FindObjectsInactive.Exclude).transform;
+                if (_uiRootTransform == null)
+                {
+                    var canvasGO = new GameObject(nameof(Canvas));
+                    var canvas = canvasGO.AddComponent<Canvas>();
+                    canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                    canvasGO.AddComponent<CanvasScaler>();
+                    canvasGO.AddComponent<GraphicRaycaster>();
+                    _uiRootTransform = canvas.transform;
+                }
+            }
+            Container.BindInterfacesAndSelfTo<ViewFactory>().AsSingle().WithArguments(_uiRootTransform.gameObject, _uiPrefabs);
+        }
+
+        private void InstallPresenters()
+        {
+            Container.BindInterfacesAndSelfTo<PresenterNavigator>().AsTransient();
+            var presenterTypes = ReflectionUtilities.GetInheritorTypes(typeof(IPresenter));
+            foreach (var presenterType in presenterTypes)
+            {
+                Container.BindInterfacesTo(presenterType).FromNew().AsSingle();
+            }
+        }
+
         private void OnApplicationQuit()
         {
             var gameStateNavigator = Container.Resolve<IGameStateNavigator>();
