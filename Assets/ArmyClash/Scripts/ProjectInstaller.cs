@@ -1,4 +1,7 @@
+using ArmyClash.GameFlow;
+using ArmyClash.GameFlow.Abstractions;
 using Cysharp.Threading.Tasks;
+using KarenKrill.UniCore.Diagnostics;
 using KarenKrill.UniCore.Logging;
 using KarenKrill.UniCore.StateSystem;
 using KarenKrill.UniCore.StateSystem.Abstractions;
@@ -10,8 +13,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using ArmyClash.GameFlow;
-using ArmyClash.GameFlow.Abstractions;
 
 namespace ArmyClash
 {
@@ -23,12 +24,15 @@ namespace ArmyClash
             InstallGameFlow();
             InstallViewFactory();
             InstallPresenters();
+            InstallDiagnostics();
         }
 
         [SerializeField]
         private Transform _uiRootTransform;
         [SerializeField]
         private List<GameObject> _uiPrefabs;
+        [SerializeField]
+        private DiagnosticsProvider _diagnosticsProvider;
         private ILogger _logger;
         
         private void InstallLogging()
@@ -99,6 +103,11 @@ namespace ArmyClash
             {
                 Container.BindInterfacesTo(presenterType).FromNew().AsSingle();
             }
+        }
+
+        private void InstallDiagnostics()
+        {
+            Container.BindInterfacesAndSelfTo<DiagnosticsProvider>().FromInstance(_diagnosticsProvider).AsSingle();
         }
 
         private void OnApplicationQuit()

@@ -135,6 +135,7 @@ Transform:
   m_Children:
   - {fileID: 8346489106385108869}
   - {fileID: 105292797011885894}
+  - {fileID: 2164524400889393475}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8783729517934630054
@@ -182,6 +183,7 @@ MonoBehaviour:
   _uiRootTransform: {fileID: 5357223010441640604}
   _uiPrefabs:
   - {fileID: 8134017537965800947, guid: d7e43f8bf50ba244485f4dbbb0d91b09, type: 3}
+  _diagnosticsProvider: {fileID: 8567911003508503072}
 --- !u!1 &2931818691093740120
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +235,52 @@ MonoBehaviour:
   ConformX: 1
   ConformY: 1
   Logging: 0
+--- !u!1 &6891284349487409322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2164524400889393475}
+  - component: {fileID: 8567911003508503072}
+  m_Layer: 0
+  m_Name: DiagnosticsProvider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2164524400889393475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6891284349487409322}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9019081291437601050}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8567911003508503072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6891284349487409322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b542872229970f4d9cb17b8df13cc15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: KarenKrill.UniCore.Diagnostics::KarenKrill.UniCore.Diagnostics.DiagnosticsProvider
+  _fpsUpdatePeriod: 0.1
+  _fpsWindowSize: 20
 --- !u!1 &8273641759137799492
 GameObject:
   m_ObjectHideFlags: 0
