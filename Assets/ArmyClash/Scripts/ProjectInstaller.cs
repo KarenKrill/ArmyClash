@@ -1,5 +1,3 @@
-using ArmyClash.GameFlow;
-using ArmyClash.GameFlow.Abstractions;
 using Cysharp.Threading.Tasks;
 using KarenKrill.UniCore.Diagnostics;
 using KarenKrill.UniCore.Logging;
@@ -14,6 +12,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
+using KarenKrill.Audio;
+using ArmyClash.GameFlow;
+using ArmyClash.GameFlow.Abstractions;
+
 namespace ArmyClash
 {
     public class ProjectInstaller : MonoInstaller
@@ -25,6 +27,7 @@ namespace ArmyClash
             InstallViewFactory();
             InstallPresenters();
             InstallDiagnostics();
+            InstallAudio();
         }
 
         [SerializeField]
@@ -33,6 +36,8 @@ namespace ArmyClash
         private List<GameObject> _uiPrefabs;
         [SerializeField]
         private DiagnosticsProvider _diagnosticsProvider;
+        [SerializeField]
+        private AudioController _audioController;
         private ILogger _logger;
         
         private void InstallLogging()
@@ -108,6 +113,11 @@ namespace ArmyClash
         private void InstallDiagnostics()
         {
             Container.BindInterfacesAndSelfTo<DiagnosticsProvider>().FromInstance(_diagnosticsProvider).AsSingle();
+        }
+
+        private void InstallAudio()
+        {
+            Container.BindInterfacesAndSelfTo<AudioController>().FromInstance(_audioController).AsSingle();
         }
 
         private void OnApplicationQuit()
